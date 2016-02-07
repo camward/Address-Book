@@ -9,12 +9,12 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Имя">
+            <Label fx:id="lblName" text="Имя">
                <VBox.margin>
                   <Insets bottom="20.0" top="5.0" />
                </VBox.margin>
             </Label>
-            <Label text="Телефон" />
+            <Label fx:id="lblPhone" text="Телефон" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" top="20.0" />
@@ -24,12 +24,12 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField prefHeight="25.0" prefWidth="95.0">
+            <TextField fx:id="txtName" prefHeight="25.0" prefWidth="95.0">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <TextField />
+            <TextField fx:id="txtPhone" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -39,12 +39,12 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="80.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Ok">
+            <Button fx:id="addOk" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Ok">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Отмена" />
+            <Button fx:id="addCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Отмена" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" right="20.0" top="20.0" />
