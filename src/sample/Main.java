@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import objects.Person;
 
 public class Main extends Application {
 
@@ -24,21 +23,8 @@ public class Main extends Application {
 
     private void testData(){
         CollectionAdressBook adressBook = new CollectionAdressBook();
-
-        Person person = new Person();
-        person.setFio("fio1");
-        person.setPhone("12345");
-
-        Person person2 = new Person();
-        person2.setFio("fio2");
-        person2.setPhone("67890");
-
-        adressBook.add(person);
-        adressBook.add(person2);
-
-        person.setPhone("8-800-555-555");
-
-        adressBook.delete(person);
+        adressBook.fillTestData();
+        adressBook.print();
     }
 
     public static void main(String[] args) {
