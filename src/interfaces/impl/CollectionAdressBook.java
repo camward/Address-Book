@@ -51,6 +51,14 @@ public class CollectionAdressBook implements AdressBook {
         personList.add(new Person("Марина", "8-904-456-12-65"));
         personList.add(new Person("Илья", "8-904-453-12-34"));
         personList.add(new Person("Аня", "8-678-456-12-78"));
-        personList.add(new Person("Катя", "8-904-887-67-34"));
+        personList.add(new Person("Коля", "8-678-123-12-78"));
+        personList.add(new Person("Лиля", "8-344-456-12-78"));
+        personList.add(new Person("Слава", "8-678-556-12-78"));
+        personList.add(new Person("Оля", "8-678-456-12-56"));
+        personList.add(new Person("Женя", "8-678-456-56-78"));
+        personList.add(new Person("Ксюша", "8-678-345-34-78"));
+        personList.add(new Person("Егор", "8-455-456-55-78"));
+        personList.add(new Person("Катя", "8-567-677-67-34"));
+        personList.add(new Person("Саша", "8-233-677-44-34"));
     }
 }

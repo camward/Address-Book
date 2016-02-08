@@ -17,7 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.Person;
 
-import javax.swing.text.TableView;
+import javafx.scene.control.TableView;
 import java.io.IOException;
 
 public class MainController {
@@ -43,7 +43,7 @@ public class MainController {
     private Label lblCount;
 
     @FXML
-    private TableView tabBook2;
+    private TableView tabBook;
 
     @FXML
     private TableColumn<Person, String> columnFIO;
@@ -64,7 +64,7 @@ public class MainController {
         });
 
         addressBookImpl.fillTestData();
-        // tabBook.setItems(addressBookImpl.getPersonList());
+        tabBook.setItems(addressBookImpl.getPersonList());
     }
 
     private void updateCountLabel(){
