@@ -39,12 +39,12 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="80.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="addOk" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Ok">
+            <Button fx:id="addOk" defaultButton="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Ok">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="addCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Отмена" />
+            <Button fx:id="addCancel" cancelButton="true" mnemonicParsing="false" onAction="#actionClose" prefHeight="26.0" prefWidth="75.0" text="Отмена" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" right="20.0" top="20.0" />

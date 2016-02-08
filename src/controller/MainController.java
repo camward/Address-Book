@@ -8,16 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.Person;
 
-import javafx.scene.control.TableView;
 import java.io.IOException;
 
 public class MainController {
@@ -53,6 +49,9 @@ public class MainController {
 
     @FXML
     private void initialize(){
+        // для множественного выбора записей
+        // tabBook.getSelectionModel().getSelectionMode(SelectionMode.MULTIPLE);
+
         columnFIO.setCellValueFactory(new PropertyValueFactory<Person, String>("fio"));
         columnPhone.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
 
@@ -71,12 +70,38 @@ public class MainController {
         lblCount.setText("Количество записей: " + addressBookImpl.getPersonList().size());
     }
 
-    public void showAdd(ActionEvent actionEvent){
+    public void showDialog(ActionEvent actionEvent){
+
+        Object source = actionEvent.getSource();
+
+        // если нажата не кнопка, то выходим из метода
+        if(!(source instanceof Button)){
+            return;
+        }
+
+        Button clickedButton = (Button)source;
+
+        Person selectedPerson = (Person)tabBook.getSelectionModel().getSelectedItem();
+
+        switch (clickedButton.getId()){
+            case "btnAdd":
+                System.out.println("add " + selectedPerson);
+                break;
+
+            case "btnEdit":
+                System.out.println("edit " + selectedPerson);
+                break;
+
+            case "btnDelete":
+                System.out.println("delete " + selectedPerson);
+                break;
+        }
+
         try {
             // btnAdd.setText("Добавление...");
 
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("../fxml/add.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../fxml/edit.fxml"));
             stage.setTitle("Добавить запись");
             stage.setMinHeight(150);
             stage.setMinWidth(300);
@@ -91,11 +116,4 @@ public class MainController {
         }
     }
 
-    public void showEdit(ActionEvent actionEvent){
-        System.out.println("update");
-    }
-
-    public void showDelete(ActionEvent actionEvent){
-        System.out.println("delete");
-    }
 }
