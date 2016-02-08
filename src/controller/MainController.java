@@ -36,7 +36,7 @@ public class MainController {
 
     public void showAdd(ActionEvent actionEvent){
         try {
-            btnAdd.setText("Добавление...");
+            // btnAdd.setText("Добавление...");
 
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("../fxml/add.fxml"));
