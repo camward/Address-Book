@@ -1,12 +1,12 @@
 package interfaces.impl;
 
 import interfaces.AdressBook;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import objects.Person;
 
-import java.util.ArrayList;
-
 public class CollectionAdressBook implements AdressBook {
-    private ArrayList<Person> personList = new ArrayList<Person>();
+    private ObservableList<Person> personList = FXCollections.observableArrayList();
 
     @Override
     public void add(Person person) {
@@ -23,7 +23,7 @@ public class CollectionAdressBook implements AdressBook {
         personList.remove(person);
     }
 
-    public ArrayList<Person> getPersonList() {
+    public ObservableList<Person> getPersonList() {
         return personList;
     }
 
