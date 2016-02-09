@@ -3,6 +3,7 @@ package controller;
 import interfaces.impl.CollectionAdressBook;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,8 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import objects.Person;
 
 import java.io.IOException;
@@ -19,6 +22,8 @@ import java.io.IOException;
 public class MainController {
 
     private CollectionAdressBook addressBookImpl = new CollectionAdressBook();
+
+    private Stage mainStage;
 
     @FXML
     private Button btnAdd;
@@ -47,6 +52,15 @@ public class MainController {
     @FXML
     private TableColumn<Person, String> columnPhone;
 
+    private Parent fxmEdit;
+    private FXMLLoader fxmlLoader = new FXMLLoader();
+    private EditController editController;
+    private Stage editDialogStage;
+
+    public void setMainStage(Stage mainStage){
+        this.mainStage = mainStage;
+    }
+
     @FXML
     private void initialize(){
         // для множественного выбора записей
@@ -55,6 +69,15 @@ public class MainController {
         columnFIO.setCellValueFactory(new PropertyValueFactory<Person, String>("fio"));
         columnPhone.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
 
+        initListeners();
+
+        addressBookImpl.fillTestData();
+        tabBook.setItems(addressBookImpl.getPersonList());
+
+        initLoader();
+    }
+
+    private void initListeners(){
         addressBookImpl.getPersonList().addListener(new ListChangeListener<Person>() {
             @Override
             public void onChanged(Change<? extends Person> c) {
@@ -62,8 +85,26 @@ public class MainController {
             }
         });
 
-        addressBookImpl.fillTestData();
-        tabBook.setItems(addressBookImpl.getPersonList());
+        tabBook.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getClickCount() == 2){
+                    editController.setPerson((Person) tabBook.getSelectionModel().getSelectedItem());
+                    dataEdit();
+                }
+            }
+        });
+    }
+
+    private void initLoader(){
+        try {
+            fxmlLoader.setLocation(getClass().getResource("../fxml/edit.fxml"));
+            fxmEdit = fxmlLoader.load();
+            editController = fxmlLoader.getController();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     private void updateCountLabel(){
@@ -81,39 +122,37 @@ public class MainController {
 
         Button clickedButton = (Button)source;
 
-        Person selectedPerson = (Person)tabBook.getSelectionModel().getSelectedItem();
-
         switch (clickedButton.getId()){
             case "btnAdd":
-                System.out.println("add " + selectedPerson);
+                editController.setPerson(new Person());
+                dataEdit();
+                addressBookImpl.add(editController.getPerson());
                 break;
 
             case "btnEdit":
-                System.out.println("edit " + selectedPerson);
+                editController.setPerson((Person) tabBook.getSelectionModel().getSelectedItem());
+                dataEdit();
                 break;
 
             case "btnDelete":
-                System.out.println("delete " + selectedPerson);
+                addressBookImpl.delete((Person) tabBook.getSelectionModel().getSelectedItem());
                 break;
         }
+    }
 
-        try {
-            // btnAdd.setText("Добавление...");
+    private void dataEdit(){
+        if(editDialogStage == null){
+            editDialogStage = new Stage();
+            editDialogStage.setTitle("Редактирование записи");
+            editDialogStage.setMinWidth(300);
+            editDialogStage.setMinHeight(150);
+            editDialogStage.setResizable(false);
+            editDialogStage.setScene(new Scene(fxmEdit));
+            editDialogStage.initModality(Modality.WINDOW_MODAL);
+            editDialogStage.initOwner(mainStage);
+        }
 
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("../fxml/edit.fxml"));
-            stage.setTitle("Добавить запись");
-            stage.setMinHeight(150);
-            stage.setMinWidth(300);
-            stage.setResizable(false);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-            stage.show();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        editDialogStage.showAndWait();
     }
 
 }

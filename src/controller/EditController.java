@@ -34,13 +34,25 @@ public class EditController {
     public void actionClose(ActionEvent actionEvent){
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        stage.hide();
     }
 
     public void setPerson(Person person) {
+        if(person == null){
+            return;
+        }
         this.person = person;
-
         txtName.setText(person.getFio());
         txtPhone.setText(person.getPhone());
+    }
+
+    public Person getPerson(){
+        return person;
+    }
+
+    public void actionSave(ActionEvent actionEvent){
+        person.setPhone(txtPhone.getText());
+        person.setFio(txtName.getText());
+        actionClose(actionEvent);
     }
 }
