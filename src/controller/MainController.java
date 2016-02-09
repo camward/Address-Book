@@ -1,6 +1,7 @@
 package controller;
 
 import interfaces.impl.CollectionAdressBook;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,8 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.Person;
+import org.controlsfx.control.textfield.CustomTextField;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -40,7 +44,7 @@ public class MainController implements Initializable{
     private Button btnSrch;
 
     @FXML
-    private TextField txtSrch;
+    private CustomTextField txtSrch;
 
     @FXML
     private Label lblCount;
@@ -71,12 +75,26 @@ public class MainController implements Initializable{
         columnFIO.setCellValueFactory(new PropertyValueFactory<Person, String>("fio"));
         columnPhone.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
 
+        setupClearButtonField(txtSrch);
         initListeners();
+        fillData();
+        initLoader();
+    }
 
+    private void fillData() {
         addressBookImpl.fillTestData();
         tabBook.setItems(addressBookImpl.getPersonList());
+    }
 
-        initLoader();
+    private  void setupClearButtonField(CustomTextField customTextField){
+        try {
+            Method m = TextFields.class.getDeclaredMethod("setupClearButtonField", TextField.class, ObjectProperty.class);
+            m.setAccessible(true);
+            m.invoke(null, customTextField, customTextField.rightProperty());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void setMainStage(Stage mainStage){
