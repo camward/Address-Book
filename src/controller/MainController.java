@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,12 +14,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import objects.Person;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable{
 
     private CollectionAdressBook addressBookImpl = new CollectionAdressBook();
 
@@ -57,12 +59,12 @@ public class MainController {
     private EditController editController;
     private Stage editDialogStage;
 
-    public void setMainStage(Stage mainStage){
-        this.mainStage = mainStage;
-    }
+    private ResourceBundle resourceBundle;
 
-    @FXML
-    private void initialize(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.resourceBundle = resources;
+
         // для множественного выбора записей
         // tabBook.getSelectionModel().getSelectionMode(SelectionMode.MULTIPLE);
 
@@ -75,6 +77,10 @@ public class MainController {
         tabBook.setItems(addressBookImpl.getPersonList());
 
         initLoader();
+    }
+
+    public void setMainStage(Stage mainStage){
+        this.mainStage = mainStage;
     }
 
     private void initListeners(){
@@ -99,6 +105,7 @@ public class MainController {
     private void initLoader(){
         try {
             fxmlLoader.setLocation(getClass().getResource("../fxml/edit.fxml"));
+            fxmlLoader.setResources(ResourceBundle.getBundle("locale.Locale", new Locale("en")));
             fxmEdit = fxmlLoader.load();
             editController = fxmlLoader.getController();
         }
@@ -108,7 +115,7 @@ public class MainController {
     }
 
     private void updateCountLabel(){
-        lblCount.setText("Количество записей: " + addressBookImpl.getPersonList().size());
+        lblCount.setText(resourceBundle.getString("count") +": "+ addressBookImpl.getPersonList().size());
     }
 
     public void showDialog(ActionEvent actionEvent){
@@ -143,7 +150,7 @@ public class MainController {
     private void dataEdit(){
         if(editDialogStage == null){
             editDialogStage = new Stage();
-            editDialogStage.setTitle("Редактирование записи");
+            editDialogStage.setTitle(resourceBundle.getString("edit_book"));
             editDialogStage.setMinWidth(300);
             editDialogStage.setMinHeight(150);
             editDialogStage.setResizable(false);
